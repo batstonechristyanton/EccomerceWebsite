@@ -5,8 +5,13 @@ use App\Http\Controllers\LandingPage;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SaveForLaterController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PaymentController;
+
+
 use Illuminate\Support\Facades\Route;
 use Gloudemans\Shoppingcart\Facades\Cart;
+
+use App\Http\Controllers\StripeController;
 
 // Route::view('/', 'landing-page');
 // Route::get('/', function () {
@@ -24,8 +29,9 @@ Route::post('/saveForLater/switchToCart/{product}',[SaveForLaterController::clas
 
 Route::get('/checkout',[CheckoutController::class,'index'])->name('checkout.index');
 
-Route::get('stripe', [StripeController::class, 'stripe']);
-Route::post('stripe', [StripeController::class, 'stripePost'])->name('stripe.post');
+Route::get('/payment', [PaymentController::class, "index"]);
+Route::post('stripe', [PaymentController::class, "stripePost"])->name('stripe.post');
+
 
 
 Route::view('/product', 'product');
