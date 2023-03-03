@@ -1,103 +1,93 @@
-initialize();
-// Replace with your public key, found in your Stripe dashboard
-const stripe = Stripe("<YOUR_PUBLIC_KEY>"); 
-
-const items = [{ id: "xl-tshirt" }];
-
-let elements;
-
-initialize();
-checkStatus();
-
-document
-    .querySelector("#payment-form")
-    .addEventListener("submit", handleSubmit);
-
-async function initialize() {
-    const { clientSecret } = await fetch("/charge", {
-        method: "POST",
-        headers: {
-            "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value,
-        },
-        body: JSON.stringify({ items }),
-    }).then((r) => r.json());
-
-    elements = stripe.elements({ clientSecret });
-
-    const paymentElement = elements.create("payment");
-    paymentElement.mount("#payment-element");
-}
-
-async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-
-    const { error } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-            // Replace with your payment completion page
-            return_url: "http://localhost/success",
-        },
-    });
-
-    if (error.type === "card_error" || error.type === "validation_error") {
-        showMessage(error.message);
-    } else {
-        showMessage("An unexpected error occured.");
+class FormValidator {
+    constructor(form, fields) {
+      this.form = form
+      this.fields = fields
     }
-
-    setLoading(false);
-}
-
-async function checkStatus() {
-    const clientSecret = new URLSearchParams(window.location.search).get(
-        "payment_intent_client_secret"
-    );
-
-    if (!clientSecret) {
-        return;
+  
+    initialize() {
+      this.validateOnEntry()
+      this.validateOnSubmit()
     }
-
-    const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
-
-    switch (paymentIntent.status) {
-        case "succeeded":
-            showMessage("Payment succeeded!");
-            break;
-        case "processing":
-            showMessage("Your payment is processing.");
-            break;
-        case "requires_payment_method":
-            showMessage("Your payment was not successful, please try again.");
-            break;
-        default:
-            showMessage("Something went wrong.");
-            break;
+  
+    validateOnSubmit() {
+      let self = this
+  
+      this.form.addEventListener('submit', e => {
+          e.preventDefault()
+          self.fields.forEach(field => {
+          const input = document.querySelector(`#${field}`)
+          self.validateFields(input)
+        })
+      })
     }
-}
-
-// ------- UI helpers -------
-
-function showMessage(messageText) {
-    const messageContainer = document.querySelector("#payment-message");
-
-    messageContainer.classList.remove("hidden");
-    messageContainer.textContent = messageText;
-
-    setTimeout(function () {
-        messageContainer.classList.add("hidden");
-        messageText.textContent = "";
-    }, 4000);
-}
-
-function setLoading(isLoading) {
-    if (isLoading) {
-        document.querySelector("#submit").disabled = true;
-        document.querySelector("#spinner").classList.remove("hidden");
-        document.querySelector("#button-text").classList.add("hidden");
-    } else {
-        document.querySelector("#submit").disabled = false;
-        document.querySelector("#spinner").classList.add("hidden");
-        document.querySelector("#button-text").classList.remove("hidden");
+  
+    validateOnEntry() {
+      let self = this
+      this.fields.forEach(field => {
+        const input = document.querySelector(`#${field}`)
+  
+        input.addEventListener('input', event => {
+          self.validateFields(input)
+        })
+      })
     }
-}
+  
+    validateFields(field) {
+  
+      // Check presence of values
+      if (field.value.trim() === "") {
+        this.setStatus(field, `${field.previousElementSibling.innerText} cannot be blank`, "error")
+      } else {
+        this.setStatus(field, null, "success")
+      }
+  
+      // check for a valid email address
+      if (field.type === "email") {
+        const re = /\S+@\S+\.\S+/
+        if (re.test(field.value)) {
+          this.setStatus(field, null, "success")
+        } else {
+          this.setStatus(field, "Please enter valid email address", "error")
+        }
+      }
+  
+      // Password confirmation edge case
+      if (field.id === "password_confirmation") {
+        const passwordField = this.form.querySelector('#password')
+  
+        if (field.value.trim() == "") {
+          this.setStatus(field, "Password confirmation required", "error")
+        } else if (field.value != passwordField.value) {
+          this.setStatus(field, "Password does not match", "error")
+        } else {
+          this.setStatus(field, null, "success")
+        }
+      }
+    }
+  
+    setStatus(field, message, status) {
+      const successIcon = field.parentElement.querySelector('.icon-success')
+      const errorIcon = field.parentElement.querySelector('.icon-error')
+      const errorMessage = field.parentElement.querySelector('.error-message')
+  
+      if (status === "success") {
+        if (errorIcon) { errorIcon.classList.add('hidden') }
+        if (errorMessage) { errorMessage.innerText = "" }
+        successIcon.classList.remove('hidden')
+        field.classList.remove('input-error')
+      }
+  
+      if (status === "error") {
+        if (successIcon) { successIcon.classList.add('hidden') }
+        field.parentElement.querySelector('.error-message').innerText = message
+        errorIcon.classList.remove('hidden')
+        field.classList.add('input-error')
+      }
+    }
+  }
+  
+  const form = document.querySelector('.form')
+  const fields = ["username", "email", "password", "password_confirmation"]
+  
+  const validator = new FormValidator(form, fields)
+  validator.initialize()
