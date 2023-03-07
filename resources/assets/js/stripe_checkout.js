@@ -30,16 +30,7 @@ function createToken() {
         if(typeof result.token != 'undefined') { 
             console.log(result.token.id);
             document.getElementById("stripe-token-id").value = result.token.id;
-            // document.getElementById('checkout-form').submit();
+           
         } 
     });
 }
-function stripeTokenHandler(token){
-
-    var form = document.getElementById('checkout-form'); 
-    var hiddenInput = document.createElement('input');
-    hiddenInput.setAttribute('type','hidden'); 
-    hiddenInput.setAttribute('name','stripeToken'); 
-    hiddenInput.setATtribute('value',token.id);
-    form.submit();
- }

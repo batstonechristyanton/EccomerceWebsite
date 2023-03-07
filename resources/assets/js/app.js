@@ -1,3 +1,14 @@
+var className = document.querySelectorAll('.quantity');
+
+Array.from(className).forEach(function(element){
+element.addEventListener("change",function(){ 
+    console.log("herer");
+    alert('change')
+})
+}) 
+
+
+
 var StripEnv = process.env.MIX_STRIPE_KEY;
 var stripe = Stripe(StripEnv);
 var elements = stripe.elements();
@@ -39,3 +50,5 @@ function stripeTokenHandler(token){
     document.getElementById('stripe-token-id').value = token;
     // form.submit();
  }
+
+
