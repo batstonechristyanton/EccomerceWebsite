@@ -14,7 +14,7 @@ class ShopController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    { 
         $products = Product::mightAlsoLike()->get();
         return view('shop')->with('products', $products);
     }

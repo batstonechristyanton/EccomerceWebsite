@@ -1,81 +1,48 @@
 <?php
-    
+  
 namespace App\Http\Controllers;
-     
-use Illuminate\Http\Request;
-use Session;
+  
 use Stripe;
-     
+use Illuminate\Http\Request;
+use App\Http\Requests\CheckOutRequest;
+use Gloudemans\Shoppingcart\Facades\Cart;
+  
 class PaymentController extends Controller
 {
-    /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('payment');
     }
-    
-    /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function stripePost(Request $request)
-    {
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-    
-        Stripe\Charge::create ([
-                "amount" => 100 * 100,
-                "currency" => "usd",
-                "source" => $request->stripeToken,
-                "description" => "Test payment from LaravelTus.com." 
-        ]);
+     
       
-        Session::flash('success', 'Payment successful!');
-              
-        return back();
-    }
+    public function createCharge(CheckOutRequest $request)
+    {   
+        dd($request->all());
+       $contents = Cart::Content()->map(function($item){
+        return $item->model->slug.','.$item->qty; 
+       })->values()->toJson();
 
-//     /**
-//  * success response method.
-//  *
-//  * @return \Illuminate\Http\Response
-//  */
-// public function stripePost(Request $request)
-// {
-//     Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-//     $customer = Stripe\Customer::create(array(
-//             "address" => [
-//                 "line1" => "Virani Chowk",
-//                 "postal_code" => "390008",
-//                 "city" => "Vadodara",
-//                 "state" => "GJ",
-//                 "country" => "IN",
-//             ],
-//             "email" => "demo@gmail.com",
-//             "name" => "Nitin Pujari",
-//             "source" => $request->stripeToken
-//         ));
-//     Stripe\Charge::create ([
-//             "amount" => 100 * 100,
-//             "currency" => "usd",
-//             "customer" => $customer->id,
-//             "description" => "Test payment from LaravelTus.com.",
-//             "shipping" => [
-//                 "name" => "Jenny Rosen",
-//                 "address" => [
-//                     "line1" => "510 Townsend St",
-//                     "postal_code" => "98140",
-//                     "city" => "San Francisco",
-//                     "state" => "CA",
-//                     "country" => "US",
-//                 ],
-//             ]
-//     ]); 
-//     Session::flash('success', 'Payment successful!');
-//     return back();
-// }
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+       try {
+
+           Stripe\Charge::create ([
+                   "amount" => Cart::total(0,0,"") *100,
+                   "currency" => "CAD",
+                   "source" => $request->stripeToken,
+                   "receipt_email" => $request->email,
+                   "description" => "Order" , 
+                   "metadata" => [
+                       'contents' => $contents, 
+                       'quantity'=> Cart::instance('default')->count()
+                   ]
+           ]);
+            
+       }catch(\Stripe\Exception\CardException $e){
+
+        return back()->withErrors('Error!' . $e->getMessage());
+       }
+
+        Cart::instance('default')->destroy();
+        return redirect()->route('confirmation.index')->with('success_message', 'Thank you ! payment has been sucessfully accepted');
+    }
 }

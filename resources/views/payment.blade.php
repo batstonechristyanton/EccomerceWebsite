@@ -1,65 +1,95 @@
-<script src="{{ asset('js/stripe_checkout.js') }}" defer></script>
-<link href="{{ asset('css/stripe_checkout.css') }}" rel="stylesheet" />
-<div class="container">
 
-    <h2 class="title">Create a new account</h2>
-    <form action="#" class="form">
-  
-      <div class="input-group">
-        <label for="username" class="label">Username</label>
-        <input id="username" placeholder="webcrunch" type="text" class="input">
-        <span class="error-message"></span>
-        <svg class="icon icon-success hidden hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg>
-  
-        <svg class="icon icon-error hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-        </svg>
-      </div>
-  
-      <div class="input-group">
-        <label for="email" class="label">Email</label>
-        <input id="email" type="email" class="input" autocomplete placeholder="andy@web-crunch.com">
-        <span class="error-message"></span>
-        <svg class="icon icon-success hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg>
-  
-        <svg class="icon icon-error hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-        </svg>
-      </div>
-  
-      <div class="input-group">
-        <label for="password" class="label">Password</label>
-        <input id="password" type="password" class="input">
-        <span class="error-message"></span>
-        <svg class="icon icon-success hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg>
-  
-        <svg class="icon icon-error hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-        </svg>
-      </div>
-  
-      <div class="input-group">
-        <label for="password_confirmation" class="label">Password Confirmation</label>
-        <input id="password_confirmation" type="password" class="input">
-        <span class="error-message"></span>
-        <svg class="icon icon-success hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg>
-  
-        <svg class="icon icon-error hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-        </svg>
-      </div>
-  
-      <input type="submit" class="button" value="Create account">
-  
-    </form>
-  </div>
-  
-  
+     
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <link href="{{ asset('css/stripe_checkout.css') }}" rel="stylesheet" />
+    <script src="https://js.stripe.com/v3/"></script>
+         @if (session()->has('success_message'))
+                    <div class="alert alert-success">
+                        {{ session()->get('success_message') }}
+                    </div>
+                @endif
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li> {{ $error }} </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+    <form id="checkout-form" method="post" action="{{ route('createCharge.post') }}">
+        <h2>Billing Details</h2>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}" required >
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}" required >
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" name="address" value="{{old('address')}}" required>
+        </div>
+
+        <div class="half-form">
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" name="city" value="{{old('city')}}" required >
+            </div>
+            <div class="form-group">
+                <label for="province">Province</label>
+                <input type="text" class="form-control" id="province" name="province" value="{{old('province')}}" required>
+            </div>
+        </div> <!-- end half-form -->
+
+        <div class="half-form">
+            <div class="form-group">
+                <label for="postalcode">Postal Code</label>
+                <input type="text" class="form-control" id="postalcode" name="postalcode" value="{{old('postalcode')}}" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" class="form-control" id="phone" name="phone" value="{{old('phone')}}" required >
+            </div>
+        </div> <!-- end half-form -->
+
+        <div class="spacer"></div>
+
+        <h2>Payment Details</h2>
+
+        <div class="form-group">
+            <label for="name_on_card">Name on Card</label>
+            <input type="text" class="form-control" id="name_on_card" name="name_on_card" value="">
+            
+        </div>
+     
+        @if (session('success'))
+        <div 
+          >
+            Payment Successful!
+        </div>
+        @endif
+       
+            @csrf             
+            <input type='hidden' name='stripeToken' id='stripe-token-id'>                              
+            <label for="card-element" class="mb-5">Checkout Forms</label>
+            <br>
+            <div id="card-element" class="form-control" ></div>
+            <button 
+                class="btn btn-success mt-3"
+                type="submit" 
+                id="complete-order"
+                >Complete Order 
+            </button>
+        <div id="card-errors" role="alert"></div>
+        </form>
+            
+                
+                     
+                  
+               
+    

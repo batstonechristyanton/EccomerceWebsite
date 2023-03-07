@@ -6,6 +6,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SaveForLaterController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ConfirmationController;
 
 
 use Illuminate\Support\Facades\Route;
@@ -30,9 +31,9 @@ Route::post('/saveForLater/switchToCart/{product}',[SaveForLaterController::clas
 Route::get('/checkout',[CheckoutController::class,'index'])->name('checkout.index');
 
 Route::get('/payment', [PaymentController::class, "index"]);
-Route::post('stripe', [PaymentController::class, "stripePost"])->name('stripe.post');
+Route::post('/charge', [PaymentController::class, "createCharge"])->name('createCharge.post');
 
-
+Route::get('thankyou', [ConfirmationController::class, "index"])->name('confirmation.index');
 
 Route::view('/product', 'product');
 // Route::view('/cart', 'cart');
@@ -40,4 +41,3 @@ Route::get('empty', function () {
     Cart:: instance('saveForLater')->destroy();
 });
 
-Route::view('/thankyou', 'thankyou');
