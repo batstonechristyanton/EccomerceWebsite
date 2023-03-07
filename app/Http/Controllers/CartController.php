@@ -87,8 +87,11 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response8
      */
     public function update(Request $request, $id)
-    {
-        return $request->all();
+    {   
+        Cart::update($id,$request->quantity); 
+         
+        session()->flash('success_message', 'Quantity was updated sucessfully');
+        return response()->json(['success' => true]); 
     }
 
     /**

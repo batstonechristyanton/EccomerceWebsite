@@ -1,9 +1,22 @@
+const axios = require('axios');
 var className = document.querySelectorAll('.quantity');
 
 Array.from(className).forEach(function(element){
-element.addEventListener("change",function(){ 
-    console.log("herer");
-    alert('change')
+    element.addEventListener("change",function(){ 
+        const id = element.getAttribute('data-id');
+    axios.patch(`/cart/${id}`, {
+        quantity:this.value
+      })
+      .then(function (response) {
+        console.log(response);
+        window.location.href = '/cart'
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
+      });
 })
 }) 
 
