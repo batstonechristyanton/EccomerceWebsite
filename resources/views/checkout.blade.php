@@ -10,15 +10,11 @@
         }
     </style>
 
-    <script src="https://js.stripe.com/v3/"></script>
-
 @endsection
 
 @section('content')
 
-{{-- <script src="https://js.stripe.com/v3/"></script> --}}
-{{-- <script src="{{ asset('js/stripe_checkout.js') }}" defer></script>
-<link href="{{ asset('css/stripe_checkout.css') }}" rel="stylesheet" /> --}}
+
 <div class="container">
 
         <h1 class="checkout-heading stylish-heading">Checkout</h1>

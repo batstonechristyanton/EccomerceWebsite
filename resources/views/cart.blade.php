@@ -67,12 +67,10 @@
                                        
                                     </div>
                                     <div>
-                                        <select class="quantity" data-id={{ $item->rowId }}>
-                                            <option {{ $item->qty == 1 ? 'selected ' : ''}}>1</option>
-                                            <option {{ $item->qty == 2 ? 'selected ' : ''}}>2</option>
-                                            <option {{ $item->qty == 3 ? 'selected ' : ''}}>3</option>
-                                            <option {{ $item->qty == 4 ? 'selected ' : ''}}>4</option>
-                                            <option {{ $item->qty == 5 ? 'selected ' : ''}}>5</option>
+                                        <select class="quantity" data-id={{ $item->rowId }}> 
+                                            @for($i = 1; $i < 5 + 1; $i++)
+                                            <option {{ $item->qty == $i ? 'selected ' : ''}}> {{ $i }}</option>
+                                            @endfor   
                                         </select>
                                     </div>
                                     <div>{{ $item->model->presentPrice() }}</div>

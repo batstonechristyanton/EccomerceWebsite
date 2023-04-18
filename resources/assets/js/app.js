@@ -1,4 +1,9 @@
 const axios = require('axios');
+var StripEnv = process.env.MIX_STRIPE_KEY;
+var stripe = Stripe(StripEnv);
+var elements = stripe.elements();
+var cardElement = elements.create('card');
+
 var className = document.querySelectorAll('.quantity');
 
 Array.from(className).forEach(function(element){
@@ -12,7 +17,8 @@ Array.from(className).forEach(function(element){
         window.location.href = '/cart'
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error)
+        window.location.href = '/cart'
       })
       .finally(function () {
         // always executed
@@ -21,11 +27,6 @@ Array.from(className).forEach(function(element){
 }) 
 
 
-
-var StripEnv = process.env.MIX_STRIPE_KEY;
-var stripe = Stripe(StripEnv);
-var elements = stripe.elements();
-var cardElement = elements.create('card');
 cardElement.mount('#card-element');
 
 var btn = document.getElementById("complete-order");
@@ -33,7 +34,8 @@ btn.onclick = function () {
     createToken();
 };
 
-function createToken() {
+function createToken() { 
+   
     document.getElementById("complete-order").disabled = true;
     let options = { 
         name:document.getElementById('name_on_card').value,
@@ -52,16 +54,17 @@ function createToken() {
 
         // creating token success
         if(typeof result.token != 'undefined') {
-            let token = result.token.id
+            let token = result.token.id 
+            
             stripeTokenHandler(token)
         } 
     });
 }
 function stripeTokenHandler(token){
-
+    console.log(token);
     var form = document.getElementById('checkout-form'); 
     document.getElementById('stripe-token-id').value = token;
-    // form.submit();
+    form.submit();
  }
 
 

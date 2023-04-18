@@ -17,7 +17,7 @@ class PaymentController extends Controller
       
     public function createCharge(CheckOutRequest $request)
     {   
-        dd($request->all());
+        
        $contents = Cart::Content()->map(function($item){
         return $item->model->slug.','.$item->qty; 
        })->values()->toJson();
